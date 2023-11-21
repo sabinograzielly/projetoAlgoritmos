@@ -7,7 +7,7 @@
 typedef struct {
    int matricula; 
    char nome[1000];
-   int esta_presente; //esta_presente
+   int esta_presente;
 } Estudante; 
 
 int adcEstudante(Estudante estudantes[], int *tamanho) { 
