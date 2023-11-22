@@ -10,18 +10,36 @@ typedef struct {
    int esta_presente;
 } Estudante; 
 
-int adcEstudante(Estudante estudantes[], int *tamanho) { 
-   if (*tamanho >= 1000) {
-       printf("Erro: O array de alunos estA cheio.\n");
-       return -1;
-   }
-   printf("Digite o ID do aluno: ");
-   scanf("%d", &estudantes[*tamanho].matricula);
-   printf("Digite o nome do aluno: ");
-   scanf("%s", estudantes[*tamanho].nome);
-   estudantes[*tamanho].esta_presente = 0;
-   (*tamanho)++;
-   return 0;
+int adcEstudante(Estudante estudantes[], int *tamanho) {
+    if (*tamanho >= 1000) {
+        printf("Erro: O array de alunos está cheio.\n");
+        return -1;
+    }
+
+
+    printf("Digite o ID do aluno: ");
+    scanf("%d", &estudantes[*tamanho].matricula);
+    while (getchar() != '\n');
+
+    printf("Digite o nome do aluno: ");
+    fgets(estudantes[*tamanho].nome, sizeof(estudantes[*tamanho].nome), stdin);
+    estudantes[*tamanho].nome[strcspn(estudantes[*tamanho].nome, "\n")] = '\0'; 
+
+    estudantes[*tamanho].esta_presente = 0;
+    (*tamanho)++;
+    return 0;
+}
+
+int listarAlunos(Estudante estudantes[], int tamanho) {
+    printf("Lista de alunos:\n");
+    for (int i = 0; i < tamanho; i++) {
+        // Verifica se o aluno foi adicionado
+        if (estudantes[i].matricula != 0) {
+            printf("ID: %d, Nome: %s\n",
+                   estudantes[i].matricula, estudantes[i].nome);
+        }
+    }
+    return 0;
 }
 
 int acharEstudante(Estudante estudantes[], int tamanho, int matricula) { 
@@ -77,44 +95,60 @@ int marcarAtendimento(Estudante estudantes[], int tamanho) {
 int main() {
    Estudante estudantes[100];
    int tamanho = 0;
-   int alternativa; //alternativa
-   while (1) {
+   int alternativa; 
+    
+    // MENU SOLICITADO PELO PROFESSOR :)
+    //1. Inserir um novo aluno;
+    // 2. Listar alunos;
+    //3. Buscar aluno;
+    //4. Editar aluno;
+    //5. Remover aluno;
+    //6. Realizar chamada, marcando alunos faltantes;
+    //7. Ler uma data e salvar chamada em arquivo nomeado pela data.
+
+   while (1) { // alterei e coloquei o menu correto 
        printf("Escolha uma alternativa:\n");
-       printf("1. Adicionar aluno\n");
-       printf("2. Editar aluno\n");
-       printf("3. Remover aluno\n");
-       printf("4. Salvar atendimento\n");
-       printf("5. Marcar atendimento\n");
-       printf("6. Sair\n");
+       printf("1. Inserir novo aluno\n");
+       printf("2. Listar alunos\n");
+       printf("3. Buscar aluno\n");
+       printf("4. Editar aluno\n");
+       printf("5. Remover aluno\n");
+       printf("6. Realizar chamada\n");
+       printf("7. Salvar chamada\n");
        if (scanf("%d", &alternativa) != 1) {
            printf("Erro: Entrada invAlida.\n");
            return 1;
        }
        switch (alternativa) {
-           case 1:
+          case 1:
                adcEstudante(estudantes, &tamanho);
                break;
+// FUNÇÃO OK :) | MAS ACHO QUE PODERIAMOS COLOCAR CONDIÇÕES + EX: NÃO DEIXAR DOIS ALUNOS COM O MESMO ID
            case 2:
-               printf("Digite o ID do aluno a ser editado: ");
-               scanf("%d", &alternativa);
-               editarEstudante(estudantes, tamanho, alternativa);
+               listarAlunos(estudantes, tamanho);
                break;
+// FUNÇÃO OK :)
            case 3:
                printf("Digite o ID do aluno a ser removido: ");
                scanf("%d", &alternativa);
                removerEstudante(estudantes, &tamanho, alternativa);
-               break;
-           case 4:
-               salvarAtendimento(estudantes, tamanho, "attendance.csv");
-               break;
+               break;// PRECISA CORRIGIR 
+            case 4:
+               printf("Digite o ID do aluno a ser editado: ");
+               scanf("%d", &alternativa);
+               editarEstudante(estudantes, tamanho, alternativa);
+               break;// PRECISA CORRIGIR 
            case 5:
                marcarAtendimento(estudantes, tamanho);
-               break;
+               break;// PRECISA CORRIGIR 
            case 6:
-               return 0;
+               // precisa colocar a condição para chamada;
+           case 7:
+               // precisa colocar a condição para salvar chamada;
            default:
                printf("Erro: Alternativa inexistente.\n");
        }
    }
    return 0;
 }
+
