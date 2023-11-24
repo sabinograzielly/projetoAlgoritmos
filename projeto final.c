@@ -21,7 +21,7 @@ int acharEstudante(Estudante estudantes[], int tamanho, int matricula) {
 
 int adcEstudante(Estudante estudantes[], int *tamanho) {
     if (*tamanho >= 1000) {
-        printf("Erro: O array de alunos estão cheio.\n");
+        printf("Erro: O vetor de alunos estão cheio.\n");
         return -1;
     }
 
