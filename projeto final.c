@@ -159,8 +159,8 @@ int main(){
                removerEstudante(estudantes, &tamanho, alternativa);
                break;// CORRIGIDO
            case 6:
-               //MarcacaoFalta(); //precisa implementar a FUN«√O com os par‚metros..
-               // precisa colocar a condiÁ„o para chamada;
+               //MarcacaoFalta(); //precisa implementar a FUN«√O com os par√¢metros..
+               // precisa colocar a condi√ß√£o para chamada;
            default:
                printf("Erro: Alternativa inv·lida.\n");
        }
