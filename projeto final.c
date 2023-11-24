@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include <locale.h> COLOCAR A BIBILIOTECA DE ACENTUAÇÃO DENTRO DE CADA FUNÇÃO APOS TERMINAR DE CONCERTAR AS FUNÇÕES
+// #include <locale.h> COLOCAR A BIBLIOTECA DE ACENTUAÇÃO DENTRO DE CADA FUNÇÃO APOS TERMINAR DE CONCERTAR AS FUNÇÕES
 // as letras que tem acento estarão em maiusculas
 
 typedef struct {
@@ -17,7 +17,7 @@ int adcEstudante(Estudante estudantes[], int *tamanho) {
     }
 
 
-    printf("Digite o ID do aluno: ");
+    printf("Digite a matricula do aluno: ");
     scanf("%d", &estudantes[*tamanho].matricula);
     while (getchar() != '\n');
 
@@ -72,11 +72,11 @@ int removerEstudante(Estudante estudantes[], int *tamanho, int matricula) {
    return -1;
 }
 
-int salvarAtendimento(Estudante estudantes[], int tamanho, char nome_arquivo[]) {
+int marcacaoFalta(Estudante estudantes[], int tamanho, char nome_arquivo[]) {
    FILE *file = fopen(nome_arquivo, "w");
    if (file == NULL) {
        printf("Erro: Foi detectado um erro ao abrir o arquivo %s.\n", nome_arquivo);
-       return;
+       return 0;
    }
    for (int i = 0; i < tamanho; i++) {
        fprintf(file, "%d,%s,%d\n", estudantes[i].matricula, estudantes[i].nome, estudantes[i].esta_presente);
@@ -84,16 +84,12 @@ int salvarAtendimento(Estudante estudantes[], int tamanho, char nome_arquivo[]) 
    fclose(file);
    return 0;
 }
+//RETIREI A FUNÇÃO MARCARATENDIMENTO POIS REALIZA A MSM FUNÇÂO QUE O CASO 6....
 
-int marcarAtendimento(Estudante estudantes[], int tamanho) {
-   for (int i = 0; i < tamanho; i++) {
-       estudantes[i].esta_presente = 1;
-   }
-   return 0;
-}
+
 
 int main() {
-   Estudante estudantes[100];
+   Estudante estudantes[1000]; //alterei o vetor para 1000 de capacidade evitando gargalo
    int tamanho = 0;
    int alternativa; 
     
@@ -114,7 +110,6 @@ int main() {
        printf("4. Editar aluno\n");
        printf("5. Remover aluno\n");
        printf("6. Realizar chamada\n");
-       printf("7. Salvar chamada\n");
        if (scanf("%d", &alternativa) != 1) {
            printf("Erro: Entrada invAlida.\n");
            return 1;
@@ -129,22 +124,23 @@ int main() {
                break;
 // FUNÇÃO OK :)
            case 3:
-               printf("Digite o ID do aluno a ser removido: ");
+               printf("Para realizar a busca do aluno,digite sua matricula: ");
                scanf("%d", &alternativa);
-               removerEstudante(estudantes, &tamanho, alternativa);
+               acharEstudante(estudantes, &tamanho, alternativa);
                break;// PRECISA CORRIGIR 
             case 4:
                printf("Digite o ID do aluno a ser editado: ");
                scanf("%d", &alternativa);
                editarEstudante(estudantes, tamanho, alternativa);
-               break;// PRECISA CORRIGIR 
+               break;// CORRIGIDO 
            case 5:
-               marcarAtendimento(estudantes, tamanho);
-               break;// PRECISA CORRIGIR 
+               printf("Digite o ID do aluno a ser removido: ");
+               scanf("%d", &alternativa);
+               removerEstudante(estudantes, &tamanho, alternativa);
+               break;// CORRIGIDO
            case 6:
+               MarcacaoFalta(); //precisa implementar a função com os parâmetros..
                // precisa colocar a condição para chamada;
-           case 7:
-               // precisa colocar a condição para salvar chamada;
            default:
                printf("Erro: Alternativa inexistente.\n");
        }
