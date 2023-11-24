@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h> //COLOCAR A BIBLIOTECA DE ACENTUA√á√ÉO DENTRO DE CADA FUN√á√ÉO APOS TERMINAR DE CONCERTAR AS FUN√á√ïES
-// as letras que tem acento estar√£o em maiusculas
+#include <locale.h> 
 
 typedef struct {
    int matricula; 
@@ -105,7 +104,7 @@ int marcacaoFalta(Estudante estudantes[], int tamanho, char nome_arquivo[]) {
    fclose(file);
    return 0;
 }
-//RETIREI A FUN√á√ÉO MARCAR_ATENDIMENTO POIS REALIZA A MSM FUN√á√ÇO QUE O CASO 6....
+//RETIREI A FUN«√O MARCAR_ATENDIMENTO POIS REALIZA A MSM FUN«√o QUE O CASO 6....
 
 
 
@@ -140,11 +139,10 @@ int main(){
           case 1:
                adcEstudante(estudantes, &tamanho);
                break;
-// FUN√á√ÉO OK :) | MAS ACHO QUE PODERIAMOS COLOCAR CONDI√á√ïES + EX: N√ÉO DEIXAR DOIS ALUNOS COM O MESMO ID
            case 2:
                listarAlunos(estudantes, tamanho);
                break;
-// FUN√á√ÉO OK :)
+// FUN«√O OK :)
            case 3:
                printf("Para realizar a busca do aluno,digite sua matricula: ");
                scanf("%d", &alternativa);
@@ -161,8 +159,8 @@ int main(){
                removerEstudante(estudantes, &tamanho, alternativa);
                break;// CORRIGIDO
            case 6:
-               //MarcacaoFalta(); //precisa implementar a fun√ß√£o com os par√¢metros..
-               // precisa colocar a condi√ß√£o para chamada;
+               //MarcacaoFalta(); //precisa implementar a FUN«√O com os par‚metros..
+               // precisa colocar a condiÁ„o para chamada;
            default:
                printf("Erro: Alternativa inv·lida.\n");
        }
