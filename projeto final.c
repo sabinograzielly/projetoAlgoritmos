@@ -16,13 +16,13 @@ int acharEstudante(Estudante estudantes[], int tamanho, int matricula) {
            return i;
        }
    }
-   printf("Erro: Aluno nAo encontrado.\n");
+   printf("Erro: Aluno n„o encontrado.\n");
    return -1;
 }
 
 int adcEstudante(Estudante estudantes[], int *tamanho) {
     if (*tamanho >= 1000) {
-        printf("Erro: O array de alunos est√° cheio.\n");
+        printf("Erro: O array de alunos est· cheio.\n");
         return -1;
     }
 
