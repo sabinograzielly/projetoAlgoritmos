@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include <locale.h> COLOCAR A BIBLIOTECA DE ACENTUAÇÃO DENTRO DE CADA FUNÇÃO APOS TERMINAR DE CONCERTAR AS FUNÇÕES
+#include <locale.h> //COLOCAR A BIBLIOTECA DE ACENTUAÇÃO DENTRO DE CADA FUNÇÃO APOS TERMINAR DE CONCERTAR AS FUNÇÕES
 // as letras que tem acento estarão em maiusculas
 
 typedef struct {
@@ -9,6 +9,16 @@ typedef struct {
    char nome[1000];
    int esta_presente;
 } Estudante; 
+
+int acharEstudante(Estudante estudantes[], int tamanho, int matricula) { 
+   for (int i = 0; i < tamanho; i++) {
+       if (estudantes[i].matricula == matricula) {
+           return i;
+       }
+   }
+   printf("Erro: Aluno nAo encontrado.\n");
+   return -1;
+}
 
 int adcEstudante(Estudante estudantes[], int *tamanho) {
     if (*tamanho >= 1000) {
@@ -20,7 +30,17 @@ int adcEstudante(Estudante estudantes[], int *tamanho) {
     printf("Digite a matricula do aluno: ");
     scanf("%d", &estudantes[*tamanho].matricula);
     while (getchar() != '\n');
-
+    if (*tamanho >= 1)
+    {
+        int index = acharEstudante(estudantes,*tamanho,estudantes[*tamanho].matricula);
+        if (index != -1)
+       {
+         printf("Matricula existente\n");
+         return 0;
+       }
+    }
+    
+    
     printf("Digite o nome do aluno: ");
     fgets(estudantes[*tamanho].nome, sizeof(estudantes[*tamanho].nome), stdin);
     estudantes[*tamanho].nome[strcspn(estudantes[*tamanho].nome, "\n")] = '\0'; 
@@ -42,18 +62,19 @@ int listarAlunos(Estudante estudantes[], int tamanho) {
     return 0;
 }
 
-int acharEstudante(Estudante estudantes[], int tamanho, int matricula) { 
-   for (int i = 0; i < tamanho; i++) {
-       if (estudantes[i].matricula == matricula) {
-           return i;
-       }
-   }
-   printf("Erro: Aluno nAo encontrado.\n");
-   return -1;
-}
 
-int editarEstudante(Estudante estudantes[], int tamanho, int matricula) { 
-   int index = acharEstudante(estudantes, tamanho, matricula);
+
+int editarEstudante(Estudante estudantes[], int *tamanho, int matricula) { 
+   if (*tamanho >= 1)
+    {
+        int index = acharEstudante(estudantes,*tamanho,estudantes[*tamanho].matricula);
+        if (index != -1)
+       {
+         printf("Matricula existente\n");
+         return 0;
+       }
+    }
+   int index = acharEstudante(estudantes, *tamanho, matricula);
    if (index != -1) {
        printf("Digite o novo nome do aluno: ");
        scanf("%s", estudantes[index].nome);
@@ -84,11 +105,12 @@ int marcacaoFalta(Estudante estudantes[], int tamanho, char nome_arquivo[]) {
    fclose(file);
    return 0;
 }
-//RETIREI A FUNÇÃO MARCARATENDIMENTO POIS REALIZA A MSM FUNÇÂO QUE O CASO 6....
+//RETIREI A FUNÇÃO MARCAR_ATENDIMENTO POIS REALIZA A MSM FUNÇÂO QUE O CASO 6....
 
 
 
-int main() {
+int main(){
+    setlocale(LC_ALL, "Portuguese");
    Estudante estudantes[1000]; //alterei o vetor para 1000 de capacidade evitando gargalo
    int tamanho = 0;
    int alternativa; 
@@ -111,7 +133,7 @@ int main() {
        printf("5. Remover aluno\n");
        printf("6. Realizar chamada\n");
        if (scanf("%d", &alternativa) != 1) {
-           printf("Erro: Entrada invAlida.\n");
+           printf("Erro: Entrada inv�lida.\n");
            return 1;
        }
        switch (alternativa) {
@@ -126,12 +148,12 @@ int main() {
            case 3:
                printf("Para realizar a busca do aluno,digite sua matricula: ");
                scanf("%d", &alternativa);
-               acharEstudante(estudantes, &tamanho, alternativa);
-               break;// PRECISA CORRIGIR 
+               acharEstudante(estudantes,tamanho, alternativa);
+               break;//CORRIGIDO
             case 4:
                printf("Digite o ID do aluno a ser editado: ");
                scanf("%d", &alternativa);
-               editarEstudante(estudantes, tamanho, alternativa);
+               editarEstudante(estudantes, &tamanho, alternativa);
                break;// CORRIGIDO 
            case 5:
                printf("Digite o ID do aluno a ser removido: ");
@@ -139,10 +161,10 @@ int main() {
                removerEstudante(estudantes, &tamanho, alternativa);
                break;// CORRIGIDO
            case 6:
-               MarcacaoFalta(); //precisa implementar a função com os parâmetros..
+               //MarcacaoFalta(); //precisa implementar a função com os parâmetros..
                // precisa colocar a condição para chamada;
            default:
-               printf("Erro: Alternativa inexistente.\n");
+               printf("Erro: Alternativa inv�lida.\n");
        }
    }
    return 0;
