@@ -112,7 +112,8 @@ int main(){
     setlocale(LC_ALL, "Portuguese");
    Estudante estudantes[1000]; //alterei o vetor para 1000 de capacidade evitando gargalo
    int tamanho = 0;
-   int alternativa; 
+   int matri=0;
+   int alternativa=0; 
     
     // MENU SOLICITADO PELO PROFESSOR :)
     //1. Inserir um novo aluno;
@@ -145,18 +146,18 @@ int main(){
 // FUNÇÃO OK :)
            case 3:
                printf("Para realizar a busca do aluno,digite sua matricula: ");
-               scanf("%d", &alternativa);
-               acharEstudante(estudantes,tamanho, alternativa);
+               scanf("%d", &matri);
+               acharEstudante(estudantes,tamanho, matri);
                break;//CORRIGIDO
             case 4:
                printf("Digite o ID do aluno a ser editado: ");
-               scanf("%d", &alternativa);
-               editarEstudante(estudantes, &tamanho, alternativa);
+               scanf("%d", &matri);
+               editarEstudante(estudantes, &tamanho, matri);
                break;// CORRIGIDO 
            case 5:
                printf("Digite o ID do aluno a ser removido: ");
-               scanf("%d", &alternativa);
-               removerEstudante(estudantes, &tamanho, alternativa);
+               scanf("%d", &matri);
+               removerEstudante(estudantes, &tamanho, matri);
                break;// CORRIGIDO
            case 6:
                //MarcacaoFalta(); //precisa implementar a FUNÇÃO com os parámetros..
