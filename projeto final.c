@@ -15,13 +15,13 @@ int acharEstudante(Estudante estudantes[], int tamanho, int matricula) {
            return i;
        }
    }
-   printf("Erro: Aluno n„o encontrado.\n");
+   printf("Erro: Aluno n√£o encontrado.\n");
    return -1;
 }
 
 int adcEstudante(Estudante estudantes[], int *tamanho) {
     if (*tamanho >= 1000) {
-        printf("Erro: O array de alunos est· cheio.\n");
+        printf("Erro: O array de alunos est√£o cheio.\n");
         return -1;
     }
 
@@ -104,7 +104,7 @@ int marcacaoFalta(Estudante estudantes[], int tamanho, char nome_arquivo[]) {
    fclose(file);
    return 0;
 }
-//RETIREI A FUN«√O MARCAR_ATENDIMENTO POIS REALIZA A MSM FUN«√o QUE O CASO 6....
+//RETIREI A FUN√á√ÉO MARCAR_ATENDIMENTO POIS REALIZA A MSM FUN√á√ÉO QUE O CASO 6....
 
 
 
@@ -132,7 +132,7 @@ int main(){
        printf("5. Remover aluno\n");
        printf("6. Realizar chamada\n");
        if (scanf("%d", &alternativa) != 1) {
-           printf("Erro: Entrada inv¡lida.\n");
+           printf("Erro: Entrada inv√°lida.\n");
            return 1;
        }
        switch (alternativa) {
@@ -142,7 +142,7 @@ int main(){
            case 2:
                listarAlunos(estudantes, tamanho);
                break;
-// FUN«√O OK :)
+// FUN√á√ÉO OK :)
            case 3:
                printf("Para realizar a busca do aluno,digite sua matricula: ");
                scanf("%d", &alternativa);
@@ -159,12 +159,11 @@ int main(){
                removerEstudante(estudantes, &tamanho, alternativa);
                break;// CORRIGIDO
            case 6:
-               //MarcacaoFalta(); //precisa implementar a FUN«√O com os par√¢metros..
+               //MarcacaoFalta(); //precisa implementar a FUN√á√ÉO com os par√°metros..
                // precisa colocar a condi√ß√£o para chamada;
            default:
-               printf("Erro: Alternativa inv·lida.\n");
+               printf("Erro: Alternativa inv√°lida.\n");
        }
    }
    return 0;
 }
-
