@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h> 
+#include <time.h>
 
 typedef struct {
    int matricula; 
@@ -15,17 +16,17 @@ int acharEstudante(Estudante estudantes[], int tamanho, int matricula) {
            return i;
        }
    }
-   printf("Erro: Aluno não encontrado.\n");
+   printf("Erro: Aluno nAo encontrado.\n");
    return -1;
 }
 
 int adcEstudante(Estudante estudantes[], int *tamanho) {
     if (*tamanho >= 1000) {
-        printf("Erro: O vetor de alunos estão cheio.\n");
+        printf("Erro: O vetor de alunos estA cheio.\n");
         return -1;
     }
 
-
+// ERRO AQUI, ESTÁ ACEITANDO NOME NA MATRICULA. A MATRICULA DEVERIA SER APENAS NUMEROS0
     printf("Digite a matricula do aluno: ");
     scanf("%d", &estudantes[*tamanho].matricula);
     while (getchar() != '\n');
@@ -34,7 +35,7 @@ int adcEstudante(Estudante estudantes[], int *tamanho) {
         int index = acharEstudante(estudantes,*tamanho,estudantes[*tamanho].matricula);
         if (index != -1)
        {
-         printf("Matricula existente\n");
+         printf("MatrIcula existente\n");
          return 0;
        }
     }
@@ -54,7 +55,7 @@ int listarAlunos(Estudante estudantes[], int tamanho) {
     for (int i = 0; i < tamanho; i++) {
         // Verifica se o aluno foi adicionado
         if (estudantes[i].matricula != 0) {
-            printf("ID: %d, Nome: %s\n",
+            printf("MatrIcula: %d Nome: %s\n",
                    estudantes[i].matricula, estudantes[i].nome);
         }
     }
@@ -69,7 +70,7 @@ int editarEstudante(Estudante estudantes[], int *tamanho, int matricula) {
         int index = acharEstudante(estudantes,*tamanho,estudantes[*tamanho].matricula);
         if (index != -1)
        {
-         printf("Matricula existente\n");
+         printf("MatrIcula existente\n");
          return 0;
        }
     }
@@ -91,27 +92,43 @@ int removerEstudante(Estudante estudantes[], int *tamanho, int matricula) {
    }
    return -1;
 }
+// PRECISA DE UMA VERIFICAÇÃO DA DATA E HORA INVÁLIDA AQUI :/
+int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
+    FILE *file;
+    char nome_arquivo[25]; 
 
-int marcacaoFalta(Estudante estudantes[], int tamanho, char nome_arquivo[]) {
-   FILE *file = fopen(nome_arquivo, "w");
-   if (file == NULL) {
-       printf("Erro: Foi detectado um erro ao abrir o arquivo %s.\n", nome_arquivo);
-       return 0;
-   }
-   for (int i = 0; i < tamanho; i++) {
-       fprintf(file, "%d,%s,%d\n", estudantes[i].matricula, estudantes[i].nome, estudantes[i].esta_presente);
-   }
-   fclose(file);
-   return 0;
+    sprintf(nome_arquivo, "%s.txt", data_input);
+
+    file = fopen(nome_arquivo, "w");
+    if (file == NULL) {
+        printf("Erro: Falha ao abrir o arquivo %s para escrita.\n", nome_arquivo);
+        return 1;
+    }
+
+    printf("Lista de alunos:\n");
+    for (int i = 0; i < tamanho; i++) {
+        printf("MatrIcula: %d, Nome: %s\n", estudantes[i].matricula, estudantes[i].nome);
+
+        printf("O aluno estA presente? (1 para Sim, 0 para NAo): ");
+        scanf("%d", &estudantes[i].esta_presente);
+
+        fprintf(file, "%d,%s,%d\n", estudantes[i].matricula, estudantes[i].nome,
+                estudantes[i].esta_presente);
+    }
+
+    fclose(file);
+
+    printf("Chamada realizada com sucesso.Dados salvos em %s\n", nome_arquivo);
+
+    return 0;
 }
-//RETIREI A FUNÇÃO MARCAR_ATENDIMENTO POIS REALIZA A MSM FUNÇÃO QUE O CASO 6....
+
 
 
 
 int main(){
     setlocale(LC_ALL, "Portuguese");
-   Estudante estudantes[1000]; //alterei o vetor para 1000 de capacidade evitando gargalo
-   int tamanho = 0;
+   Estudante estudantes[1000]; 
    int matri=0;
    int alternativa=0; 
     
@@ -124,7 +141,7 @@ int main(){
     //6. Realizar chamada, marcando alunos faltantes;
     //7. Ler uma data e salvar chamada em arquivo nomeado pela data.
 
-   while (1) { // alterei e coloquei o menu correto 
+   while (1) { 
        printf("Escolha uma alternativa:\n");
        printf("1. Inserir novo aluno\n");
        printf("2. Listar alunos\n");
@@ -133,13 +150,14 @@ int main(){
        printf("5. Remover aluno\n");
        printf("6. Realizar chamada\n");
        if (scanf("%d", &alternativa) != 1) {
-           printf("Erro: Entrada inválida.\n");
+           printf("Erro: Entrada invAlida.\n");
            return 1;
        }
        switch (alternativa) {
           case 1:
                adcEstudante(estudantes, &tamanho);
                break;
+// FUNÇÃO COM ERRO NA MATRÍCULA
            case 2:
                listarAlunos(estudantes, tamanho);
                break;
@@ -148,23 +166,43 @@ int main(){
                printf("Para realizar a busca do aluno,digite sua matricula: ");
                scanf("%d", &matri);
                acharEstudante(estudantes,tamanho, matri);
-               break;//CORRIGIDO
+               break;
+// QUANDO O ALUNO É ENCONTRADO NÃO APARECE NADA, VOLTA PARA O MENU 
             case 4:
-               printf("Digite o ID do aluno a ser editado: ");
+               printf("Digite a matrIcula do aluno a ser editado: ");
                scanf("%d", &matri);
                editarEstudante(estudantes, &tamanho, matri);
-               break;// CORRIGIDO 
+               break;
+//PODERIA COLOCAR UMA MENSAGEM DE CONFIRMAÇÃO DA ALTERAÇÃO :/
            case 5:
-               printf("Digite o ID do aluno a ser removido: ");
+               printf("Digite a matrIcula do aluno a ser removido: ");
                scanf("%d", &matri);
                removerEstudante(estudantes, &tamanho, matri);
-               break;// CORRIGIDO
-           case 6:
-               //MarcacaoFalta(); //precisa implementar a FUNÇÃO com os parámetros..
-               // precisa colocar a condição para chamada;
+               break;
+//PODERIA COLOCAR UMA MENSAGEM DE CONFIRMAÇÃO DA REMOÇÃO :/
+         case 6:
+                while (1) {
+                    char data_input[20];
+                    printf("Digite a data e hora no formato AAAA-MM-DD_HH-MM: ");
+                    
+                    if (scanf("%19s", data_input) != 1) {
+                        printf("Erro: Entrada invAlida para data e hora.\n");
+                        int c;
+                        while ((c = getchar()) != '\n' && c != EOF);
+                        continue;
+                    }
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF);
+
+                    realizarChamada(estudantes, tamanho, data_input);
+                    break;
+                }
+// ERRO NA VALIDAÇÃO DA DATA E HORA. ESTÁ ACEITANDO QUALQUER COISA 
+                break;
            default:
-               printf("Erro: Alternativa inválida.\n");
+               printf("Erro: Alternativa invAlida.\n");
        }
    }
    return 0;
 }
+// ERRO EM QUASE TODAS AS OPÇÕES DO MENU: ESTÁ SEMPRE PROCURANDO O ALUNO QUANDO DIGITADO A MATRÍCULA 
