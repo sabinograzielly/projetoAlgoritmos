@@ -127,10 +127,11 @@ int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
 
 
 int main(){
-    setlocale(LC_ALL, "Portuguese");
+   setlocale(LC_ALL, "Portuguese");
    Estudante estudantes[1000]; 
    int matri=0;
    int alternativa=0; 
+   int tamanho=0;
     
     // MENU SOLICITADO PELO PROFESSOR :)
     //1. Inserir um novo aluno;
@@ -143,11 +144,11 @@ int main(){
 
    while (1) { 
        printf("Escolha uma alternativa:\n");
-       printf("1. Inserir novo aluno\n");
-       printf("2. Listar alunos\n");
-       printf("3. Buscar aluno\n");
+       printf("1. Inserir novo aluno\n"); //OK
+       printf("2. Listar alunos\n"); //OK
+       printf("3. Buscar aluno\n"); 
        printf("4. Editar aluno\n");
-       printf("5. Remover aluno\n");
+       printf("5. Remover aluno\n"); //OK
        printf("6. Realizar chamada\n");
        if (scanf("%d", &alternativa) != 1) {
            printf("Erro: Entrada invAlida.\n");
