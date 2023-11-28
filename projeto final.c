@@ -9,7 +9,7 @@ typedef struct {
    char nome[1000];
    int esta_presente;
 } Estudante; 
-
+//A FUNCAO ACHARESTUDANTE ESTA PRINTANDO ERRO: EM TODOS APOS INSERIR O PRIMEIRO ALUNO..
 int acharEstudante(Estudante estudantes[], int tamanho, int matricula) { 
    for (int i = 0; i < tamanho; i++) {
        if (estudantes[i].matricula == matricula) {
@@ -42,6 +42,7 @@ int adcEstudante(Estudante estudantes[], int *tamanho) {
     
     
     printf("Digite o nome do aluno: ");
+    fflush(stdin);
     fgets(estudantes[*tamanho].nome, sizeof(estudantes[*tamanho].nome), stdin);
     estudantes[*tamanho].nome[strcspn(estudantes[*tamanho].nome, "\n")] = '\0'; 
 
@@ -67,19 +68,17 @@ int listarAlunos(Estudante estudantes[], int tamanho) {
 int editarEstudante(Estudante estudantes[], int *tamanho, int matricula) { 
    if (*tamanho >= 1)
     {
-        int index = acharEstudante(estudantes,*tamanho,estudantes[*tamanho].matricula);
+        int index = acharEstudante(estudantes,*tamanho,matricula);
         if (index != -1)
        {
-         printf("MatrIcula existente\n");
+         printf("Aluno encontrado\n");
+         printf("Digite o novo nome do aluno: ");
+         fflush(stdin);  // limpar o buffer
+         fgets(estudantes[index].nome,sizeof(estudantes[index].nome),stdin);
+         estudantes[index].nome[strcspn(estudantes[index].nome, "\n")] = '\0'; //adicionar fgets e remover o /n
          return 0;
        }
     }
-   int index = acharEstudante(estudantes, *tamanho, matricula);
-   if (index != -1) {
-       printf("Digite o novo nome do aluno: ");
-       scanf("%s", estudantes[index].nome);
-       return 0;
-   }
    return -1;
 }
 
@@ -132,6 +131,7 @@ int main(){
    int matri=0;
    int alternativa=0; 
    int tamanho=0;
+   int index=-1;
     
     // MENU SOLICITADO PELO PROFESSOR :)
     //1. Inserir um novo aluno;
@@ -162,13 +162,17 @@ int main(){
            case 2:
                listarAlunos(estudantes, tamanho);
                break;
-// FUNÇÃO OK :)
            case 3:
                printf("Para realizar a busca do aluno,digite sua matricula: ");
                scanf("%d", &matri);
-               acharEstudante(estudantes,tamanho, matri);
+               index = acharEstudante(estudantes,tamanho, matri);
+               if (index != -1 )
+               {
+                 printf("nome do aluno:%s\n",estudantes[index].nome);
+               }
+               
+
                break;
-// QUANDO O ALUNO É ENCONTRADO NÃO APARECE NADA, VOLTA PARA O MENU 
             case 4:
                printf("Digite a matrIcula do aluno a ser editado: ");
                scanf("%d", &matri);
@@ -176,7 +180,7 @@ int main(){
                break;
 //PODERIA COLOCAR UMA MENSAGEM DE CONFIRMAÇÃO DA ALTERAÇÃO :/
            case 5:
-               printf("Digite a matrIcula do aluno a ser removido: ");
+               printf("Digite a matr�cula do aluno a ser removido: ");
                scanf("%d", &matri);
                removerEstudante(estudantes, &tamanho, matri);
                break;
