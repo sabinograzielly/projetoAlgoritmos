@@ -43,6 +43,8 @@ int adcEstudante(Estudante estudantes[], int *tamanho) {
          return 0;
        }
     }
+
+    
     
     
     printf("Digite o nome do aluno: ");
