@@ -4,6 +4,7 @@
 #include <locale.h> 
 #include <time.h>
 
+
 typedef struct {
    int matricula; 
    char nome[1000];
@@ -95,7 +96,52 @@ int removerEstudante(Estudante estudantes[], int *tamanho, int matricula) {
    }
    return -1;
 }
-// PRECISA DE UMA VERIFICAÇÃO DA DATA E HORA INVÁLIDA AQUI :/
+int validarData(int dia, int mes, int ano) {
+    // Verifica se o ano está dentro de um intervalo razoável (pode ser ajustado conforme necessário)
+    if (ano < 2023 || ano > 2023) {
+        return 0; // Ano inválido
+    }
+
+    // Verifica se o mês está no intervalo de 1 a 12
+    if (mes < 1 || mes > 12) {
+        return 0; // Mês inválido
+    }
+
+    // Verifica o número máximo de dias permitidos para cada mês
+    int max_dias;
+    if (mes == 2) {
+        // Verifica se é um ano bissexto
+        if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
+            max_dias = 29; // Fevereiro em um ano bissexto
+        } else {
+            max_dias = 28; // Fevereiro em um ano não bissexto
+        }
+    } else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+        max_dias = 30; // Abril, junho, setembro, novembro
+    } else {
+        max_dias = 31; // Janeiro, março, maio, julho, agosto, outubro, dezembro
+    }
+
+    // Verifica se o dia está no intervalo válido para o mês
+    if (dia < 1 || dia > max_dias) {
+        return 0; // Dia inválido
+    }
+
+    // Se todas as verificações passaram, a data é válida
+    return 1;
+}
+int validarDataString(const char *dataStr) {
+    int dia, mes, ano;
+    int numItensLidos = sscanf(dataStr, "%d-%d-%d", &dia, &mes, &ano);
+
+    // Verifica se foram lidos três itens e se a data é válida
+    if (numItensLidos == 3 && validarData(dia, mes, ano)) {
+        return 1; // Data válida
+    } else {
+        return 0; // Data inválida
+    }
+}
+
 int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
     FILE *file;
     char nome_arquivo[25]; 
@@ -107,7 +153,6 @@ int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
         printf("Erro: Falha ao abrir o arquivo %s para escrita.\n", nome_arquivo);
         return 1;
     }
-
     printf("Lista de alunos:\n");
     for (int i = 0; i < tamanho; i++) {
         printf("MatrIcula: %d, Nome: %s\n", estudantes[i].matricula, estudantes[i].nome);
@@ -125,7 +170,6 @@ int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
 
     return 0;
 }
-
 
 
 
@@ -185,28 +229,25 @@ int main(){
                break;
 //PODERIA COLOCAR UMA MENSAGEM DE CONFIRMAÇÃO DA REMOÇÃO :/
          case 6:
-                while (1) {
-                    char data_input[20];
-                    printf("Digite a data e hora no formato AAAA-MM-DD_HH-MM: ");
-                    
-                    if (scanf("%19s", data_input) != 1) {
-                        printf("Erro: Entrada invAlida para data e hora.\n");
-                        int c;
-                        while ((c = getchar()) != '\n' && c != EOF);
-                        continue;
-                    }
+               {
+                     char dataStr[20]=""; // Ajuste o tamanho conforme necessário
+
+                    // Chama a função para validar a data em formato de string
+                    while (!validarDataString(dataStr)) {
+                    printf("Digite uma data (formato: dd-mm-aaaa): ");
+                    scanf("%s", dataStr);
+                    if (!validarDataString(dataStr)){
+                    printf("Data invalida!!!Insira novamente\n");}
                     int c;
                     while ((c = getchar()) != '\n' && c != EOF);
 
-                    realizarChamada(estudantes, tamanho, data_input);
-                    break;
-                }
-// ERRO NA VALIDAÇÃO DA DATA E HORA. ESTÁ ACEITANDO QUALQUER COISA 
+                    }
+                    realizarChamada(estudantes, tamanho,dataStr);
+}
                 break;
-           default:
+                default:
                printf("Erro: Alternativa invAlida.\n");
        }
    }
    return 0;
 }
-// ERRO EM QUASE TODAS AS OPÇÕES DO MENU: ESTÁ SEMPRE PROCURANDO O ALUNO QUANDO DIGITADO A MATRÍCULA 
