@@ -24,7 +24,7 @@ int acharEstudante(Estudante estudantes[], int tamanho, int matricula) {
 
 int adcEstudante(Estudante estudantes[], int *tamanho) {
     if (*tamanho >= 1000) {
-        printf("ERRO: O VETOR DE ALUNOS ESTA CHEIO.\n");
+        printf("              -> ERRO: O VETOR DE ALUNOS ESTA CHEIO.\n");
         return -1;
     }
 
@@ -36,13 +36,14 @@ int adcEstudante(Estudante estudantes[], int *tamanho) {
     printf("\n");
     printf("              -> DIGITE A MATRICULA DO ALUNO: ");
     if (scanf("%d", &matricula) != 1 || getchar() != '\n') {
-        printf("ERRO: A MATRICULA DEVE CONTER APENAS NUMEROS.\n");
+        printf("\n");
+        printf("              -> ERRO: A MATRICULA DEVE CONTER APENAS NUMEROS.\n");
         while (getchar() != '\n');  // Limpar o buffer de entrada
     } else {
         // Verificar se a matrícula já existe usando a função acharEstudante
         int index = acharEstudante(estudantes, *tamanho, matricula);
         if (index != -1) {
-            printf("MATRICULA EXISTENTE\n");
+            printf("              -> MATRICULA EXISTENTE\n");
         } else {
             break;  // Saia do loop se a matrícula for válida
         }
@@ -67,7 +68,9 @@ int adcEstudante(Estudante estudantes[], int *tamanho) {
         int nomeValido = 1;
         for (size_t i = 0; i < strlen(nome); i++) {
             if (!isalpha(nome[i]) && nome[i] != ' ') {
-                printf("ERRO: O NOME DEVE CONTER APENAS LETRAS.\n");
+                printf("\n");
+                printf("              -> ERRO: O NOME DEVE CONTER APENAS LETRAS.\n");
+                printf("\n");
                 nomeValido = 0;
                 break;
             }
@@ -92,7 +95,9 @@ int editarEstudante(Estudante estudantes[], int *tamanho, int matricula) {
         int index = acharEstudante(estudantes, *tamanho, matricula);
 
         if (index != -1) {
-            printf("ALUNO ENCONTRADO\n");
+            printf("\n");
+            printf("              -> ALUNO ENCONTRADO\n");
+            printf("\n");
             printf("              -> DIGITE O NOVO NOME DO ALUNO: ");
             
             // Limpar o buffer de entrada
@@ -105,14 +110,15 @@ int editarEstudante(Estudante estudantes[], int *tamanho, int matricula) {
             // Remover o caractere de nova linha, se presente
             estudantes[index].nome[strcspn(estudantes[index].nome, "\n")] = '\0';
 
-            printf("ALUNO EDITADO COM SUCESSO!\n");
+            printf("              -> ALUNO EDITADO COM SUCESSO!\n");
             return 0;  // Indica que a edição foi bem-sucedida
         } else {
-            printf("MATRICULA NAO ENCONTRADA. NENHUMA EDICAO REALIZADA.\n");
+            printf("              -> MATRICULA NAO ENCONTRADA. NENHUMA EDICAO REALIZADA.\n");
             return -1;  // Indica que a matrícula não foi encontrada
         }
     } else {
-        printf("ERRO: NENHUM ALUNO PARA EDITAR.\n");
+        printf("\n");
+        printf("              -> ERRO: NENHUM ALUNO PARA EDITAR.\n");
         return -1;  // Indica que não há alunos para editar
     }
 }
@@ -127,14 +133,17 @@ int removerEstudante(Estudante estudantes[], int *tamanho, int matricula) {
             }
 
             (*tamanho)--;
-            printf("ALUNO REMOVIDO COM SUCESSO!\n");
+            printf("\n");
+            printf("              -> ALUNO REMOVIDO COM SUCESSO!\n");
             return 0;  // Indica que a remoção foi bem-sucedida
         } else {
-            printf("Erro: MATRICULA NAO ENCONTRADA. NENHUM ALUNO REMOVIDO.\n");
+            printf("\n");
+            printf("              -> ERRO: MATRICULA NAO ENCONTRADA. NENHUM ALUNO REMOVIDO.\n");
             return -1;  // Indica que a matrícula não foi encontrada
         }
     } else {
-        printf("ERRO: ALUNO INEXISTENTE.\n");
+        printf("\n");
+        printf("              -> ERRO: ALUNO INEXISTENTE.\n");
         return -1;  // Indica que não há alunos para remover
     }
 }
@@ -187,7 +196,8 @@ int validarDataString(const char *dataStr) {
 
 int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
     if (tamanho == 0) {
-        printf("ERRO NENHUM ALUNO INSERIDO. IMPOSSIVEL REALIZAR CHAMADA.\n");
+        printf("\n");
+        printf("              -> ERRO NENHUM ALUNO INSERIDO. IMPOSSIVEL REALIZAR CHAMADA.\n");
         return 1;
     }
 
@@ -198,7 +208,7 @@ int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
 
     file = fopen(nome_arquivo, "w");
     if (file == NULL) {
-        printf("Erro: Falha ao abrir o arquivo %s para escrita.\n", nome_arquivo);
+        printf("              -> ERRO: FALHA AO ABRIR O ARQUIVO %s PARA ESCRITA.\n", nome_arquivo);
         return 1;
     }
     printf("\n");
@@ -214,7 +224,8 @@ int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
             scanf("%d", &resposta);
 
             if (resposta != 0 && resposta != 1) {
-                printf("POR FAVOR, INSIRA UM VALOR VALIDO (0 ou 1).\n");
+                printf("\n");
+                printf("              -> POR FAVOR, INSIRA UM VALOR VALIDO (0 ou 1).\n");
             }
         } while (resposta != 0 && resposta != 1);
 
@@ -234,7 +245,8 @@ int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
 
 void listarAlunos(Estudante estudantes[], int tamanho) {
     if (tamanho == 0) {
-        printf("NENHUM ALUNO CADASTRADO.\n");
+        printf("\n");
+        printf("              -> NENHUM ALUNO CADASTRADO.\n");
         return;
     }
 
@@ -249,6 +261,7 @@ void listarAlunos(Estudante estudantes[], int tamanho) {
 }
 
 int main(){
+    system("color 0A"); // SERVE PARA COLORIR O TERMINAL
    setlocale(LC_ALL, "Portuguese");
    Estudante estudantes[1000]; 
    int matri=0;
@@ -275,7 +288,7 @@ int main(){
         printf("                                 6. Realizar chamada\n");
         printf("\n");
         if (scanf("%d", &alternativa) != 1) {
-           printf("ERRO: ENTRADA INVALIDA.\n");
+           printf("              -> ERRO: ENTRADA INVALIDA.\n");
            return 1;
        }
        switch (alternativa) {
@@ -293,31 +306,34 @@ int main(){
                 scanf("%d", &matri);
                 index=acharEstudante(estudantes,tamanho, matri);
                 if (index != -1) {
-                    printf("ALUNO ENCONTRADO!\n");
-                    printf("NOME: %d, MATRICULA: %s\n", estudantes[index].nome,estudantes[index].matricula);
+                    printf("\n");
+                    printf("              -> ALUNO ENCONTRADO!\n");
+                    printf("\n");
+                    printf("                 -> NOME: %s\n                 -> MATRICULA: %d\n", estudantes[index].nome,estudantes[index].matricula);
                 }          
                 else {
-                    printf("ALUNO NAO ENCONTRADO.\n");
+                    printf("\n");
+                    printf("              -> ALUNO NAO ENCONTRADO.\n");
                 }
                 break;
 //FUNÇÃO OK!
             case 4:
-                printf("\n");
-                printf("              -> DIGITE A MATRICULA DO ALUNO A SER EDITADO: ");
+                printf("              -> DIGITE A MATRICULA DO ALUNO A SER EDITADO: ");              
                 scanf("%d", &matri);
 
             if (editarEstudante(estudantes, &tamanho, matri) == 0) {
             } else {
-            printf("DESEJA ADICIONAR UM NOVO ALUNO? (S/N): ");
+            printf("\n");
+            printf("              -> DESEJA ADICIONAR UM NOVO ALUNO? (S/N): ");
         
             char resposta;
             scanf(" %c", &resposta);  // O espaço antes do %c ignora espaços e quebras de linha
         
             if (resposta == 'S' || resposta == 's') {
                 adcEstudante(estudantes, &tamanho);
-                printf("NOVO ALUNO ADICIONADO COM SUCESSO!\n");
+                printf("              -> NOVO ALUNO ADICIONADO COM SUCESSO!\n");
             } else {
-                printf("NENHUM ALUNO FOI EDITADO.\n");
+                printf("              -> NENHUM ALUNO FOI EDITADO.\n");
             }   
     }
     break;
@@ -342,7 +358,8 @@ int main(){
                     printf("              -> DIGITE UMA DATA (FORMATO: dd-mm-aaaa): ");
                     scanf("%s", dataStr);
                     if (!validarDataString(dataStr)){
-                    printf("DATA INVALIDA !!! INSIRA NOVAMENTE\n");}
+                    printf("\n");
+                    printf("              -> DATA INVALIDA !!! INSIRA NOVAMENTE\n");}
                     int c;
                     while ((c = getchar()) != '\n' && c != EOF);
 
@@ -351,7 +368,7 @@ int main(){
 }
                 break;
                 default:
-                printf("ERRO: ALTERNATIVA INVALIDA.\n");
+                printf("              -> ERRO: ALTERNATIVA INVALIDA.\n");
        }
    }
    return 0;
