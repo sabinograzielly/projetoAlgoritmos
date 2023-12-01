@@ -97,6 +97,7 @@ int editarEstudante(Estudante estudantes[], int *tamanho, int matricula) {
             while (getchar() != '\n');
             
             // Solicitar o novo nome do aluno
+            fflush(stdin);
             fgets(estudantes[index].nome, sizeof(estudantes[index].nome), stdin);
             
             // Remover o caractere de nova linha, se presente
