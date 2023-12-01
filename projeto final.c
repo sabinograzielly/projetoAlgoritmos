@@ -291,7 +291,6 @@ int main(){
     scanf("%d", &matri);
 
     if (editarEstudante(estudantes, &tamanho, matri) == 0) {
-        printf("Aluno editado com sucesso!\n");
     } else {
         // A matrícula não foi encontrada, pergunte se deseja adicionar um novo aluno
         printf("Deseja adicionar um novo aluno? (S/N): ");
@@ -313,7 +312,6 @@ int main(){
     scanf("%d", &matri);
 
     if (removerEstudante(estudantes, &tamanho, matri) == 0) {
-        printf("Aluno removido com sucesso!\n");
     } else {
     }
     break;
