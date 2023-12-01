@@ -51,6 +51,7 @@ int adcEstudante(Estudante estudantes[], int *tamanho) {
     do {
         // Solicitar o nome do aluno
         printf("Digite o nome do aluno: ");
+        fflush(stdin);
         if (fgets(nome, sizeof(nome), stdin) == NULL) {
             return -1;  // Erro ao ler nome
         }
