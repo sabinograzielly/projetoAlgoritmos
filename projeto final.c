@@ -139,7 +139,7 @@ int removerEstudante(Estudante estudantes[], int *tamanho, int matricula) {
 }
 
 int validarData(int dia, int mes, int ano) {
-    // Verifica se o ano está dentro de um intervalo razoável (pode ser ajustado conforme necessário)
+    // Verifica se o ano está dentro de um intervalo 
     if (ano < 2023 || ano > 2023) {
         return 0; // Ano inválido
     }
@@ -185,6 +185,11 @@ int validarDataString(const char *dataStr) {
 }
 
 int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
+    if (tamanho == 0) {
+        printf("Erro: Nenhum aluno inserido. ImpossIvel realizar chamada.\n");
+        return 1;
+    }
+
     FILE *file;
     char nome_arquivo[25];
 
@@ -243,15 +248,6 @@ int main(){
    int alternativa=0; 
    int tamanho=0;
    int index=-1;
-    
-    // MENU SOLICITADO PELO PROFESSOR :)
-    //1. Inserir um novo aluno;
-    // 2. Listar alunos;
-    //3. Buscar aluno;
-    //4. Editar aluno;
-    //5. Remover aluno;
-    //6. Realizar chamada, marcando alunos faltantes;
-    //7. Ler uma data e salvar chamada em arquivo nomeado pela data.
 
    while (1) { 
        printf("Escolha uma alternativa:\n");
@@ -293,7 +289,6 @@ int main(){
 
     if (editarEstudante(estudantes, &tamanho, matri) == 0) {
     } else {
-        // A matrícula não foi encontrada, pergunte se deseja adicionar um novo aluno
         printf("Deseja adicionar um novo aluno? (S/N): ");
         
         char resposta;
@@ -319,9 +314,9 @@ int main(){
 //FUNÇÃO OK!
          case 6:
                {
-                     char dataStr[20]=""; // Ajuste o tamanho conforme necessário
+                     char dataStr[20]=""; 
 
-                    // Chama a função para validar a data em formato de string
+                    
                     while (!validarDataString(dataStr)) {
                     printf("Digite uma data (formato: dd-mm-aaaa): ");
                     scanf("%s", dataStr);
