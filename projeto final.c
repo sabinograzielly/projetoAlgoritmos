@@ -184,7 +184,7 @@ int validarDataString(const char *dataStr) {
 
 int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
     FILE *file;
-    char nome_arquivo[25]; 
+    char nome_arquivo[25];
 
     sprintf(nome_arquivo, "%s.txt", data_input);
 
@@ -197,8 +197,17 @@ int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
     for (int i = 0; i < tamanho; i++) {
         printf("MatrIcula: %d, Nome: %s\n", estudantes[i].matricula, estudantes[i].nome);
 
-        printf("O aluno estA presente? (1 para Sim, 0 para NAo): ");
-        scanf("%d", &estudantes[i].esta_presente);
+        int resposta;
+        do {
+            printf("O aluno estA presente? (1 para Sim, 0 para NAo): ");
+            scanf("%d", &resposta);
+
+            if (resposta != 0 && resposta != 1) {
+                printf("Por favor, insira um valor vAlido (0 ou 1).\n");
+            }
+        } while (resposta != 0 && resposta != 1);
+
+        estudantes[i].esta_presente = resposta;
 
         fprintf(file, "%d,%s,%d\n", estudantes[i].matricula, estudantes[i].nome,
                 estudantes[i].esta_presente);
@@ -210,6 +219,7 @@ int realizarChamada(Estudante estudantes[], int tamanho, char data_input[]) {
 
     return 0;
 }
+
 
 void listarAlunos(Estudante estudantes[], int tamanho) {
     if (tamanho == 0) {
